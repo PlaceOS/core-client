@@ -1,0 +1,20 @@
+name: placeos-core-client
+version: 0.1.0
+crystal: ">= 1.0.0"
+license: MIT
+
+dependencies:
+  placeos-models:
+    github: placeos/models
+    version: ~> 5.3
+
+  retriable:
+    github: Sija/retriable.cr
+
+  responsible:
+    github: place-labs/responsible
+    version: ~> 1.2
+
+
+authors:
+  - Caspian Baska <caspian@place.tech>
