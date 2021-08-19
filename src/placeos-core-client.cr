@@ -144,12 +144,21 @@ module PlaceOS::Core
     ###########################################################################
 
     # Returns the JSON response of executing a method on module
-    def execute(module_id : String, method : String | Symbol, arguments : NamedTuple | Array | Hash = [] of Nil)
+    def execute(
+      module_id : String,
+      method : String | Symbol,
+      arguments : NamedTuple | Array | Hash = [] of Nil,
+      user_id : String? = nil
+    )
       payload = {
         :__exec__ => method,
         method    => arguments,
       }.to_json
-      response = post("/command/#{module_id}/execute", body: payload)
+
+      params = HTTP::Params.new
+      params["user_id"] = user_id if user_id && user_id.presence
+
+      response = post("/command/#{module_id}/execute?#{params}", body: payload)
 
       case response.status_code
       when 200
