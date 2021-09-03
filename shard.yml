@@ -1,7 +1,9 @@
 name: placeos-core-client
-version: 0.2.0
+version: 0.3.0
 crystal: ">= 1.0.0"
 license: MIT
+authors:
+  - Caspian Baska <caspian@place.tech>
 
 dependencies:
   placeos-models:
@@ -14,7 +16,3 @@ dependencies:
   responsible:
     github: place-labs/responsible
     version: ~> 1.2
-
-
-authors:
-  - Caspian Baska <caspian@place.tech>

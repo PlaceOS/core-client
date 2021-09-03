@@ -101,8 +101,11 @@ module PlaceOS::Core
     end
 
     # Returns the commits for a particular driver
-    def driver(driver_id : String, repository : String, count : Int32? = nil) : Array(DriverCommit)
-      params = HTTP::Params{"repository" => repository}
+    def driver(driver_id : String, repository : String, branch : String, count : Int32? = nil) : Array(DriverCommit)
+      params = HTTP::Params{
+        "repository" => repository,
+        "branch"     => branch,
+      }
       params["count"] = count.to_s if count
       parse_to_return_type do
         get("/drivers/#{URI.encode_www_form(driver_id)}?#{params}")
