@@ -150,7 +150,7 @@ module PlaceOS::Core
     def execute(
       module_id : String,
       method : String | Symbol,
-      arguments : NamedTuple | Array | Hash = [] of Nil,
+      arguments = [] of JSON::Any,
       user_id : String? = nil
     )
       payload = {
@@ -170,10 +170,10 @@ module PlaceOS::Core
       when 203
         # exec sent to module and it raised an error
         info = NamedTuple(message: String, backtrace: Array(String)?).from_json(response.body)
-        raise Error.new(Error::ErrorCode::RequestFailed, response.status_code, "module raised: #{info[:message]}", info[:backtrace])
+        raise Core::ClientError.new(:request_failed, response.status_code, "module raised: #{info[:message]}", info[:backtrace])
       else
         # some other failure
-        raise Error.new(Error::ErrorCode::UnexpectedFailure, response.status_code, "unexpected response code #{response.status_code}")
+        raise Core::ClientError.new(:unexpected_failure, response.status_code, "unexpected response code #{response.status_code}")
       end
     end
 
