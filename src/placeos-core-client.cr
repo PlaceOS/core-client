@@ -166,11 +166,12 @@ module PlaceOS::Core
       case response.status_code
       when 200
         # exec was successful, json string returned
-        response.body
+        {response.body, response.headers["Response-Code"]?.try(&.to_i) || 200}
       when 203
         # exec sent to module and it raised an error
+        response_code = response.headers["Response-Code"]?.try(&.to_i) || 500
         info = NamedTuple(message: String, backtrace: Array(String)?).from_json(response.body)
-        raise Core::ClientError.new(:request_failed, response.status_code, "module raised: #{info[:message]}", info[:backtrace])
+        raise Core::ClientError.new(:request_failed, response.status_code, "module raised: #{info[:message]}", info[:backtrace], response_code)
       else
         # some other failure
         raise Core::ClientError.new(:unexpected_failure, response.status_code, "unexpected response code #{response.status_code}")
