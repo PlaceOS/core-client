@@ -1,5 +1,5 @@
 name: placeos-core-client
-version: 0.4.0
+version: 0.4.1
 crystal: ">= 1.0.0"
 license: MIT
 authors:
@@ -8,7 +8,7 @@ authors:
 dependencies:
   placeos-models:
     github: placeos/models
-    version: ~> 6.0
+    version: ~> 7.0
 
   retriable:
     github: Sija/retriable.cr
