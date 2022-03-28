@@ -10,7 +10,7 @@ module PlaceOS::Core
   class ClientError < Error
     getter status_code : Int32
     getter response_code : Int32
-    getter remote_backtrace : Array(String)?
+    getter remote_backtrace : Array(String)? = nil
 
     def initialize(@status_code : Int32, message = "", @response_code : Int32 = 500)
       super(message)
