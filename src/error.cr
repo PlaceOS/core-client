@@ -1,10 +1,5 @@
 module PlaceOS::Core
   class Error < Exception
-    getter message
-
-    def initialize(@message : String = "")
-      super(@message)
-    end
   end
 
   class ClientError < Error
