@@ -171,10 +171,10 @@ module PlaceOS::Core
         # exec sent to module and it raised an error
         response_code = response.headers["Response-Code"]?.try(&.to_i) || 500
         info = NamedTuple(message: String, backtrace: Array(String)?).from_json(response.body)
-        raise Core::ClientError.new(:request_failed, response.status_code, "module raised: #{info[:message]}", info[:backtrace], response_code)
+        raise Core::DriverRaisedError.new(response.status_code, "module raised: #{info[:message]}", info[:backtrace], response_code)
       else
         # some other failure
-        raise Core::ClientError.new(:unexpected_failure, response.status_code, "unexpected response code #{response.status_code}")
+        raise Core::UnexpectedFailureError.new(response.status_code, "unexpected response code #{response.status_code}")
       end
     end
 
@@ -344,13 +344,13 @@ module PlaceOS::Core
         Log.error(exception: e) { {method: {{ method }}, path: path, message: "failed to request core"} }
         body.rewind if body.responds_to? :rewind
       }
-      Retriable.retry times: retries, max_interval: 1.minute, on_retry: rewind_io do
+      Retriable.retry on: {IO::Error, Core::APIResponseError}, times: retries, max_interval: 40.seconds, on_retry: rewind_io do
         connection_lock.synchronize do
           response = connection.{{method.id}}(path, headers, body)
           if response.success? || !raises
             yield response
           else
-            raise Core::ClientError.from_response("#{@host}:#{@port}#{path}", response)
+            raise Core::APIResponseError.from_response("#{@host}:#{@port}#{path}", response)
           end
         end
       end
