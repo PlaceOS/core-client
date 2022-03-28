@@ -8,7 +8,7 @@ describe PlaceOS::Core::ClientError do
         status: :ok,
         body: "some data",
         headers: HTTP::Headers{
-          "Response-Code" => "208"
+          "Response-Code" => "208",
         }
       )
     )
