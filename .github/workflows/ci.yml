@@ -2,17 +2,8 @@ name: CI
 on: push
 jobs:
   style:
-    runs-on: ubuntu-latest
-    container:
-      image: crystallang/crystal
-    steps:
-      - uses: actions/checkout@v2
-      - name: Format
-        run: crystal tool format --check
-      - name: Lint
-        uses: crystal-ameba/github-action@v0.2.12
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    uses: PlaceOS/.github/.github/workflows/crystal-style.yml@main
+
   test:
     runs-on: ubuntu-latest
     strategy:
@@ -20,9 +11,10 @@ jobs:
       matrix:
         crystal:
           - 1.1.1
+          - 1.4.0
           - nightly
     steps:
-      - uses: oprypin/install-crystal@v1
+      - uses: crystal-lang/install-crystal@v1
         with:
           crystal: ${{ matrix.crystal }}
       - uses: actions/checkout@v2
