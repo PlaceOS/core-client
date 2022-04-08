@@ -8,7 +8,7 @@ authors:
 dependencies:
   placeos-models:
     github: placeos/models
-    version: ~> 7.0
+    version: ">= 7.0"
 
   retriable:
     github: Sija/retriable.cr
