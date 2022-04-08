@@ -1,3 +1,5 @@
+## Unreleased
+
 ## v0.5.2 (2022-04-08)
 
 ### Fix
@@ -10,7 +12,7 @@
 
 ### Fix
 
-- prevent retries on expected errors (#2)
+- prevent retries on expected errors ([#2](https://github.com/PlaceOS/core-client/pull/2))
 
 ## v0.4.1 (2022-03-09)
 
@@ -18,7 +20,7 @@
 
 ### Feat
 
-- add support for obtaining the module response code (#1)
+- add support for obtaining the module response code ([#1](https://github.com/PlaceOS/core-client/pull/1))
 
 ## v0.3.2 (2022-01-28)
 
