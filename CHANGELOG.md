@@ -1,4 +1,8 @@
-## Unreleased
+## v1.0.0 (2022-06-03)
+
+### Feat
+
+- support PlaceOS Build ([#3](https://github.com/PlaceOS/core-client/pull/3))
 
 ## v0.5.2 (2022-04-08)
 
