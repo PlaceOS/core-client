@@ -1,6 +1,7 @@
 require "http"
 require "json"
 require "mutex"
+require "placeos-models/executable"
 require "placeos-models/version"
 require "responsible"
 require "retriable"
@@ -236,10 +237,7 @@ module PlaceOS::Core
         getter edge : Hash(String, Count)
       end
 
-      getter available_repositories : Array(String)
-      getter unavailable_repositories : Array(Error)
-      getter compiled_drivers : Array(String)
-      getter unavailable_drivers : Array(Error)
+      getter driver_binaries : Array(PlaceOS::Model::Executable)
       getter run_count : RunCount
     end
 
