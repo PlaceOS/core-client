@@ -1,3 +1,11 @@
+## Unreleased
+
+### Fix
+
+- parsing error responses
+
+## v1.0.1 (2022-09-29)
+
 ## v1.0.0 (2022-06-03)
 
 ### Feat
