@@ -172,8 +172,8 @@ module PlaceOS::Core
         response_code = response.headers["Response-Code"]?.try(&.to_i) || 500
         begin
           # exec sent to module and it raised an error
-          info = NamedTuple(message: String, backtrace: Array(String)?).from_json(response.body)
-          raise Core::DriverRaisedError.new(response.status_code, "module raised: #{info[:message]}", info[:backtrace], response_code)
+          info = NamedTuple(error: String, backtrace: Array(String)?).from_json(response.body)
+          raise Core::DriverRaisedError.new(response.status_code, "module raised: #{info[:error]}", info[:backtrace], response_code)
         rescue e : JSON::Error
           message = "failed to parse exception response, response code #{response_code}\n#{response.body}"
           Log.error(exception: e) { message }
