@@ -2,6 +2,12 @@
 
 ### Fix
 
+- revert change for PlaceOS build support
+
+## v1.0.2 (2022-09-29)
+
+### Fix
+
 - parsing error responses
 
 ## v1.0.1 (2022-09-29)
