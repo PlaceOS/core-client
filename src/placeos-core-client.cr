@@ -243,7 +243,12 @@ module PlaceOS::Core
         getter edge : Hash(String, Count)
       end
 
-      getter driver_binaries : Array(PlaceOS::Model::Executable)
+      # getter driver_binaries : Array(PlaceOS::Model::Executable)
+      getter available_repositories : Array(String)
+      getter unavailable_repositories : Array(Error)
+      getter compiled_drivers : Array(String)
+      getter unavailable_drivers : Array(Error)
+
       getter run_count : RunCount
     end
 
