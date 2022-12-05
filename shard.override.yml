@@ -3,3 +3,6 @@ dependencies:
     github: spider-gazelle/secrets-env
   pars:
     github: spider-gazelle/pars
+  placeos-models:
+    github: placeos/models
+    branch: refactor/pg-migration
