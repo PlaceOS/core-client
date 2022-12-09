@@ -1,5 +1,11 @@
 ## Unreleased
 
+### Feat
+
+- **driver_details**: allow specifying the branch
+
+## v1.0.3 (2022-11-22)
+
 ### Fix
 
 - revert change for PlaceOS build support
