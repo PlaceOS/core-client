@@ -114,10 +114,11 @@ module PlaceOS::Core
     end
 
     # Returns the metadata for a particular driver
-    def driver_details(file_name : String, commit : String, repository : String) : String
+    def driver_details(file_name : String, commit : String, repository : String, branch : String = "master") : String
       params = HTTP::Params{
         "commit"     => commit,
         "repository" => repository,
+        "branch"     => branch,
       }
       # Response looks like:
       # https://github.com/placeos/driver/blob/master/docs/command_line_options.md#discovery-and-defaults
