@@ -1,5 +1,11 @@
 ## Unreleased
 
+### Fix
+
+- http timeout
+
+## v1.0.5 (2023-03-08)
+
 ### Feat
 
 - add timeouts http client
