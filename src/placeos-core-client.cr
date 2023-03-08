@@ -59,10 +59,10 @@ module PlaceOS::Core
       @host = uri_host if uri_host
       @port = uri.port || 3000
 
-      @connection = HTTP::Client.new(uri)
-      @connection.connect_timeout = 10.seconds
-      @connection.read_timeout = 5.minutes
-      @connection.write_timeout = 1.minute
+      @connection = conn = HTTP::Client.new(uri)
+      conn.connect_timeout = 10.seconds
+      conn.read_timeout = 5.minutes
+      conn.write_timeout = 1.minute
     end
 
     def initialize(
@@ -75,10 +75,10 @@ module PlaceOS::Core
       @host = host if host
       @port = port if port
 
-      @connection = HTTP::Client.new(host: @host, port: @port)
-      @connection.connect_timeout = 10.seconds
-      @connection.read_timeout = 5.minutes
-      @connection.write_timeout = 1.minute
+      @connection = conn = HTTP::Client.new(host: @host, port: @port)
+      conn.connect_timeout = 10.seconds
+      conn.read_timeout = 5.minutes
+      conn.write_timeout = 1.minute
     end
 
     protected getter! connection : HTTP::Client
