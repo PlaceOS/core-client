@@ -2,6 +2,12 @@
 
 ### Feat
 
+- add timeouts http client
+
+## v1.0.4 (2022-12-09)
+
+### Feat
+
 - **driver_details**: allow specifying the branch
 
 ## v1.0.3 (2022-11-22)
