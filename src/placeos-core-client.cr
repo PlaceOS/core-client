@@ -37,7 +37,8 @@ module PlaceOS::Core
       uri : URI,
       request_id : String? = nil,
       core_version : String = CORE_VERSION,
-      retries : Int32 = 10
+      retries : Int32 = 10,
+      &
     )
       client = new(uri, request_id, core_version, retries)
       begin
@@ -239,7 +240,7 @@ module PlaceOS::Core
       alias Processes = Hash(String, Array(String))
 
       getter edge : Hash(String, Processes) = {} of String => Processes
-      getter local : Processes = Hash(String, Array(String)).new { |h, k| h[k] = [] of String }
+      getter local : Processes = Hash(String, Array(String)).new { |hash, key| hash[key] = [] of String }
     end
 
     # Returns the loaded modules on the node
@@ -314,6 +315,7 @@ module PlaceOS::Core
 
     struct DriverStatus < BaseResponse
       struct Metadata < BaseResponse
+        # ameba:disable Naming/QueryBoolMethods
         getter running : Bool = false
         getter module_instances : Int32 = -1
         getter last_exit_code : Int32 = -1
