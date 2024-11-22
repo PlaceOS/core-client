@@ -10,9 +10,7 @@ jobs:
       fail-fast: false
       matrix:
         crystal:
-          - 1.1.1
-          - 1.4.0
-          - nightly
+          - latest
     steps:
       - uses: crystal-lang/install-crystal@v1
         with:

@@ -145,6 +145,22 @@ module PlaceOS::Core
       end
     end
 
+    def driver_recompile(file_name : String, commit : String, repository : String, tag : String)
+      params = HTTP::Params{
+        "commit"     => commit,
+        "repository" => repository,
+        "tag"        => tag,
+      }
+
+      resp = post("/drivers/#{URI.encode_www_form(file_name)}/recompile?#{params}")
+      {resp.status_code, resp.body}
+    end
+
+    def driver_reload(driver_id : String)
+      resp = post("/drivers/#{URI.encode_www_form(driver_id)}/reload")
+      {resp.status_code, resp.body}
+    end
+
     def branches?(repository : String) : Array(String)?
       parse_to_return_type do
         get("/drivers/#{repository}/branches")
