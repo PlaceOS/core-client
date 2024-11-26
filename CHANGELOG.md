@@ -1,4 +1,10 @@
-## Unreleased
+## v1.1.0 (2024-11-26)
+
+### Feat
+
+- PPT-1701 synced client with core ([#6](https://github.com/PlaceOS/core-client/pull/6))
+
+## v1.0.6 (2023-03-08)
 
 ### Fix
 
