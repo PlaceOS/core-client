@@ -37,7 +37,8 @@ module PlaceOS::Core
       uri : URI,
       request_id : String? = nil,
       core_version : String = CORE_VERSION,
-      retries : Int32 = 10
+      retries : Int32 = 10,
+      &
     )
       client = new(uri, request_id, core_version, retries)
       begin
@@ -145,6 +146,22 @@ module PlaceOS::Core
       end
     end
 
+    def driver_recompile(file_name : String, commit : String, repository : String, tag : String)
+      params = HTTP::Params{
+        "commit"     => commit,
+        "repository" => repository,
+        "tag"        => tag,
+      }
+
+      resp = post("/drivers/#{URI.encode_www_form(file_name)}/recompile?#{params}")
+      {resp.status_code, resp.body}
+    end
+
+    def driver_reload(driver_id : String)
+      resp = post("/drivers/#{URI.encode_www_form(driver_id)}/reload")
+      {resp.status_code, resp.body}
+    end
+
     def branches?(repository : String) : Array(String)?
       parse_to_return_type do
         get("/drivers/#{repository}/branches")
@@ -223,7 +240,7 @@ module PlaceOS::Core
       alias Processes = Hash(String, Array(String))
 
       getter edge : Hash(String, Processes) = {} of String => Processes
-      getter local : Processes = Hash(String, Array(String)).new { |h, k| h[k] = [] of String }
+      getter local : Processes = Hash(String, Array(String)).new { |hash, key| hash[key] = [] of String }
     end
 
     # Returns the loaded modules on the node
@@ -298,6 +315,7 @@ module PlaceOS::Core
 
     struct DriverStatus < BaseResponse
       struct Metadata < BaseResponse
+        # ameba:disable Naming/QueryBoolMethods
         getter running : Bool = false
         getter module_instances : Int32 = -1
         getter last_exit_code : Int32 = -1
