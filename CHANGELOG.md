@@ -1,3 +1,9 @@
+## v1.2.0 (2025-09-11)
+
+### Feat
+
+- [PPT-1758] Added build service monitor functionality ([#7](https://github.com/PlaceOS/core-client/pull/7))
+
 ## v1.1.0 (2024-11-26)
 
 ### Feat
