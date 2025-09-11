@@ -54,7 +54,7 @@ module PlaceOS::Core
       uri : URI,
       @request_id : String? = nil,
       @core_version : String = CORE_VERSION,
-      @retries : Int32 = 10
+      @retries : Int32 = 10,
     )
       uri_host = uri.host
       @host = uri_host if uri_host
@@ -71,7 +71,7 @@ module PlaceOS::Core
       port : Int32? = nil,
       @request_id : String? = nil,
       @core_version : String = CORE_VERSION,
-      @retries : Int32 = 10
+      @retries : Int32 = 10,
     )
       @host = host if host
       @port = port if port
@@ -170,6 +170,34 @@ module PlaceOS::Core
       raise e unless e.status_code == 404
     end
 
+    # Build Serivce Monitor
+    enum State
+      Pending
+      Running
+      Cancelled
+      Error
+      Done
+
+      def to_s(io : IO) : Nil
+        io << (member_name || value.to_s).downcase
+      end
+
+      def to_s : String
+        String.build { |io| to_s(io) }
+      end
+    end
+
+    def monitor_jobs(state : State = State::Pending)
+      params = HTTP::Params{"state" => state.to_s}
+      resp = get("/build/monitor?#{params}")
+      {resp.status_code, resp.body}
+    end
+
+    def cancel_job(job : String)
+      resp = delete("/build/cancel/#{URI.encode_www_form(job)}")
+      {resp.status_code, resp.body}
+    end
+
     # Command
     ###########################################################################
 
@@ -178,7 +206,7 @@ module PlaceOS::Core
       module_id : String,
       method : String | Symbol,
       arguments = [] of JSON::Any,
-      user_id : String? = nil
+      user_id : String? = nil,
     )
       payload = {
         :__exec__ => method,
