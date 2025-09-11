@@ -382,7 +382,7 @@ module PlaceOS::Core
     # API modem
     ###########################################################################
 
-    {% for method in %w(get post delete) %}
+    {% for method in %w(get post patch delete) %}
     # Executes a {{method.id.upcase}} request on core connection.
     #
     # The response status will be automatically checked and a `PlaceOS::Core::ClientError` raised if
