@@ -1,5 +1,9 @@
 ## Unreleased
 
+### Feat
+
+- [PPT-1758] Added patch, deleted methods to client ([#9](https://github.com/PlaceOS/core-client/pull/9))
+
 ## v1.2.0 (2025-09-11)
 
 ### Feat
