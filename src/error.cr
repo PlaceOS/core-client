@@ -23,7 +23,7 @@ module PlaceOS::Core
       @status_code : Int32,
       message : String = "",
       @remote_backtrace : Array(String)? = nil,
-      @response_code : Int32 = 500
+      @response_code : Int32 = 500,
     )
       super(message)
     end
