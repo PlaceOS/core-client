@@ -1,4 +1,10 @@
-## Unreleased
+## v1.3.0 (2025-10-29)
+
+### Feat
+
+- [PPT-2272] Add edge error + health reporting method delegates ([#10](https://github.com/PlaceOS/core-client/pull/10))
+
+## v1.2.1 (2025-09-11)
 
 ### Feat
 
