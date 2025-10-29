@@ -379,6 +379,128 @@ module PlaceOS::Core
       post("/chaos/terminate?path=#{path}").success?
     end
 
+    # Edge Monitoring
+    ###########################################################################
+
+    struct EdgeError < BaseResponse
+      getter timestamp : Int64
+      getter edge_id : String
+      getter error_type : String
+      getter message : String
+      getter context : Hash(String, String)
+      getter severity : String
+    end
+
+    struct EdgeHealth < BaseResponse
+      getter edge_id : String
+      getter connected : Bool
+      getter last_seen : Int64
+      getter connection_uptime : Int64
+      getter error_count_24h : Int32
+      getter module_count : Int32
+      getter failed_modules : Array(String)
+    end
+
+    struct ConnectionMetrics < BaseResponse
+      getter edge_id : String
+      getter total_connections : Int32
+      getter failed_connections : Int32
+      getter average_uptime : Int64
+      getter last_connection_attempt : Int64
+      getter last_successful_connection : Int64
+    end
+
+    struct EdgeModuleStatus < BaseResponse
+      getter edge_id : String
+      getter total_modules : Int32
+      getter running_modules : Int32
+      getter failed_modules : Array(String)
+      getter initialization_errors : Array(Hash(String, JSON::Any))
+    end
+
+    struct EdgeStatistics < BaseResponse
+      getter total_edges : Int32
+      getter connected_edges : Int32
+      getter edges_with_errors : Int32
+      getter total_errors_24h : Int32
+      getter total_modules : Int32
+      getter failed_modules : Int32
+      getter timestamp : String
+    end
+
+    # Get errors for a specific edge
+    def edge_errors(edge_id : String, limit : Int32? = nil, type : String? = nil) : Array(EdgeError)
+      params = HTTP::Params.new
+      params["limit"] = limit.to_s if limit
+      params["type"] = type if type
+
+      parse_to_return_type do
+        get("/status/edge/#{URI.encode_www_form(edge_id)}/errors?#{params}")
+      end
+    end
+
+    # Get module status for a specific edge
+    def edge_module_status(edge_id : String) : EdgeModuleStatus
+      parse_to_return_type do
+        get("/status/edge/#{URI.encode_www_form(edge_id)}/modules/status")
+      end
+    end
+
+    # Get health status for all edges
+    def edges_health : Hash(String, EdgeHealth)
+      parse_to_return_type do
+        get("/status/edges/health")
+      end
+    end
+
+    # Get connection metrics for all edges
+    def edges_connections : Hash(String, ConnectionMetrics)
+      parse_to_return_type do
+        get("/status/edges/connections")
+      end
+    end
+
+    # Get errors from all edges
+    def edges_errors(limit : Int32? = nil, type : String? = nil) : Hash(String, Array(EdgeError))
+      params = HTTP::Params.new
+      params["limit"] = limit.to_s if limit
+      params["type"] = type if type
+
+      parse_to_return_type do
+        get("/status/edges/errors?#{params}")
+      end
+    end
+
+    # Get module failures from all edges
+    def edges_module_failures : Hash(String, Array(Hash(String, JSON::Any)))
+      parse_to_return_type do
+        get("/status/edges/modules/failures")
+      end
+    end
+
+    # Get overall edge statistics
+    def edges_statistics : EdgeStatistics
+      parse_to_return_type do
+        get("/status/edges/statistics")
+      end
+    end
+
+    # Trigger error cleanup for edges
+    def cleanup_edge_errors(hours : Int32 = 24) : Hash(String, JSON::Any)
+      params = HTTP::Params{"hours" => hours.to_s}
+
+      parse_to_return_type do
+        post("/monitoring/cleanup?#{params}")
+      end
+    end
+
+    # Get real-time error summary
+    def edge_monitoring_summary : Hash(String, JSON::Any)
+      parse_to_return_type do
+        get("/monitoring/summary")
+      end
+    end
+
     # API modem
     ###########################################################################
 
